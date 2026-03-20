@@ -2,10 +2,6 @@ name: Download & Release PDFs
 
 on:
   push:
-    paths:
-      - "src/main.rs"
-      - "Cargo.toml"
-      - "Cargo.lock"
   workflow_dispatch:
     inputs:
       papers:
