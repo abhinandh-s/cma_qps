@@ -1,0 +1,105 @@
+name: Download & Release PDFs
+
+on:
+  push:
+    branches: [*]
+    paths:
+      - "src/main.rs"
+      - "Cargo.toml"
+      - "Cargo.lock"
+  workflow_dispatch:
+    inputs:
+      papers:
+        description: 'Papers to download (e.g. "all", "5-8", "9")'
+        required: false
+        default: "5-8"
+      tag:
+        description: 'Release tag (e.g. "2026-03"). Defaults to YYYY-MM.'
+        required: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache cargo registry + build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Build
+        run: cargo build --release
+
+      - name: Resolve inputs
+        id: cfg
+        run: |
+          PAPERS="${{ github.event.inputs.papers }}"
+          TAG="${{ github.event.inputs.tag }}"
+          [ -z "$PAPERS" ] && PAPERS="all"
+          [ -z "$TAG" ]    && TAG="$(date -u +%Y-%m)"
+          echo "papers=$PAPERS" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG"       >> "$GITHUB_OUTPUT"
+
+      - name: Download PDFs
+        run: ./target/release/qps "${{ steps.cfg.outputs.papers }}"
+
+      - name: Collect PDFs + build manifest
+        id: collect
+        run: |
+          mkdir -p staging
+          find p* -name "*.pdf" | sort | while read f; do
+            cp "$f" "staging/$(basename "$f")"
+          done
+
+          COUNT=$(ls staging/*.pdf 2>/dev/null | wc -l | tr -d ' ')
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+
+          MANIFEST="staging/manifest.txt"
+          echo "CMA Intermediate Group 1 QPS — ${{ steps.cfg.outputs.tag }}" > "$MANIFEST"
+          echo "Generated: $(date -u)" >> "$MANIFEST"
+          echo "" >> "$MANIFEST"
+          for dir in $(ls -d p* | sort); do
+            echo "=== ${dir} ===" >> "$MANIFEST"
+            ls "$dir"/*.pdf 2>/dev/null | xargs -I{} basename {} >> "$MANIFEST" || true
+            echo "" >> "$MANIFEST"
+          done
+
+          echo "Staged $COUNT PDFs"
+          cat "$MANIFEST"
+
+      - name: Fail if nothing downloaded
+        if: steps.collect.outputs.count == '0'
+        run: |
+          echo "::error::No PDFs downloaded. Check ICMAI availability."
+          exit 1
+
+      - name: Create or update release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.cfg.outputs.tag }}
+          name: "CMA Inter G1 QPS — ${{ steps.cfg.outputs.tag }}"
+          body: |
+            ## CMA Intermediate Group 1 Question Papers & Solutions
+
+            **Papers:** `${{ steps.cfg.outputs.papers }}`
+            **Files:** ${{ steps.collect.outputs.count }} PDFs
+
+            ### Contents
+            - `pyq_*` — Previous Year Question papers
+            - `mqp_*` — Model Question Papers
+            - `mqp_ans_*` — MQP Answer keys
+            - `manifest.txt` — Full file listing
+
+            > Files marked missing in the downloader log are not yet uploaded by ICMAI.
+          files: staging/*
+          fail_on_unmatched_files: false
