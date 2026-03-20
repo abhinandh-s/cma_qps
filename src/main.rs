@@ -311,43 +311,41 @@ fn parse_filename(filename: &str) -> Option<(&str, u8, &str)> {
 }
 
 fn generate_release_notes(
-    // paper_num → list of (filename, session, set, kind)
     per_paper: &HashMap<String, Vec<Downloaded>>,
     release_base: &str,
-    tag: &str,
     total: &Stats,
 ) -> String {
     let mut md = String::new();
 
-    writeln!(md, "# CMA Intermediate Group 1 — {tag}").unwrap();
-    writeln!(md).unwrap();
+    // GitHub release title is set separately — no h1 here
     writeln!(
         md,
         "> **{} files** across {} papers. \
-         Files not listed here were not available on ICMAI's server at time of release.",
+         Files not listed here were not yet uploaded by ICMAI at time of release.",
         total.success + total.skipped,
         per_paper.len()
-    )
-    .unwrap();
+    ).unwrap();
     writeln!(md).unwrap();
 
-    // Iterate papers in numeric order
     let mut paper_nums: Vec<&String> = per_paper.keys().collect();
     paper_nums.sort_by_key(|n| n.parse::<u32>().unwrap_or(99));
 
     for num in paper_nums {
         let name = paper_name(num);
-        writeln!(md, "---").unwrap();
-        writeln!(md).unwrap();
         writeln!(md, "## P{num} — {name}").unwrap();
         writeln!(md).unwrap();
 
         let files = &per_paper[num];
 
-        // --- PYQ section ---
-        let mut pyqs: Vec<&Downloaded> = files.iter().filter(|f| {
-            parse_filename(&f.filename).map(|(_, _, k)| k == "pyq").unwrap_or(false)
-        }).collect();
+        // ---- PYQ ----
+        let mut pyqs: Vec<&Downloaded> = files
+            .iter()
+            .filter(|f| {
+                parse_filename(&f.filename)
+                    .map(|(_, _, k)| k == "pyq")
+                    .unwrap_or(false)
+            })
+            .collect();
         pyqs.sort_by_key(|f| std::cmp::Reverse(session_sort_key(&f.session)));
 
         if !pyqs.is_empty() {
@@ -361,17 +359,14 @@ fn generate_release_notes(
             writeln!(md).unwrap();
         }
 
-        // --- MQP section: group by session, then set ---
-        let mut mqp_sessions: Vec<&str> = files
-            .iter()
-            .filter_map(|f| {
-                parse_filename(&f.filename)
-                    .filter(|(_, _, k)| *k == "mqp")
-                    .map(|(tag, _, _)| tag)
-            })
-            .collect::<std::collections::HashSet<_>>()
-            .into_iter()
-            .collect();
+        // ---- MQP: collect unique sessions that have question files ----
+        let mut mqp_session_set: std::collections::HashSet<&str> = std::collections::HashSet::new();
+        for f in files {
+            if let Some((tag, _, "mqp")) = parse_filename(&f.filename) {
+                mqp_session_set.insert(tag);
+            }
+        }
+        let mut mqp_sessions: Vec<&str> = mqp_session_set.into_iter().collect();
         mqp_sessions.sort_by_key(|t| std::cmp::Reverse(session_sort_key(t)));
 
         if !mqp_sessions.is_empty() {
@@ -379,51 +374,69 @@ fn generate_release_notes(
             writeln!(md).unwrap();
 
             for session_tag in &mqp_sessions {
-                let label = session_label(session_tag);
-                writeln!(md, "#### {label}").unwrap();
+                writeln!(md, "#### {}", session_label(session_tag)).unwrap();
                 writeln!(md).unwrap();
 
-                // sets for this session
-                let mut sets: Vec<u8> = files
-                    .iter()
-                    .filter_map(|f| {
-                        parse_filename(&f.filename)
-                            .filter(|(t, _, k)| t == session_tag && *k == "mqp")
-                            .map(|(_, s, _)| s)
-                    })
-                    .collect::<std::collections::HashSet<_>>()
-                    .into_iter()
-                    .collect();
+                // collect set numbers for this session's question files
+                let mut set_nums: std::collections::HashSet<u8> = std::collections::HashSet::new();
+                for f in files {
+                    if let Some((t, s, "mqp")) = parse_filename(&f.filename) {
+                        if t == *session_tag {
+                            set_nums.insert(s);
+                        }
+                    }
+                }
+                // also include sets that only have an answer (no question file)
+                for f in files {
+                    if let Some((t, s, "mqp_ans")) = parse_filename(&f.filename) {
+                        if t == *session_tag {
+                            set_nums.insert(s);
+                        }
+                    }
+                }
+                let mut sets: Vec<u8> = set_nums.into_iter().collect();
                 sets.sort();
 
-                for set in &sets {
+                for set in sets {
                     writeln!(md, "**Set {set}**").unwrap();
                     writeln!(md).unwrap();
 
-                    // question
-                    if let Some(f) = files.iter().find(|f| {
+                    let q = files.iter().find(|f| {
                         parse_filename(&f.filename)
-                            .map(|(t, s, k)| t == *session_tag && s == *set && k == "mqp")
+                            .map(|(t, s, k)| t == *session_tag && s == set && k == "mqp")
                             .unwrap_or(false)
-                    }) {
-                        let url = asset_url(release_base, &f.filename);
-                        writeln!(md, "- [Question Paper]({url})").unwrap();
-                    }
-
-                    // answer
-                    if let Some(f) = files.iter().find(|f| {
+                    });
+                    let a = files.iter().find(|f| {
                         parse_filename(&f.filename)
-                            .map(|(t, s, k)| t == *session_tag && s == *set && k == "mqp_ans")
+                            .map(|(t, s, k)| t == *session_tag && s == set && k == "mqp_ans")
                             .unwrap_or(false)
-                    }) {
-                        let url = asset_url(release_base, &f.filename);
-                        writeln!(md, "- [Answer Key]({url})").unwrap();
-                    }
+                    });
 
+                    match (q, a) {
+                        (Some(q), Some(a)) => {
+                            writeln!(md, "| [📄 Question Paper]({}) | [✅ Answer Key]({}) |",
+                                asset_url(release_base, &q.filename),
+                                asset_url(release_base, &a.filename),
+                            ).unwrap();
+                            writeln!(md, "|---|---|").unwrap();
+                        }
+                        (Some(q), None) => {
+                            writeln!(md, "- [📄 Question Paper]({})", asset_url(release_base, &q.filename)).unwrap();
+                            writeln!(md, "- ~~Answer Key~~ *(not uploaded by ICMAI)*").unwrap();
+                        }
+                        (None, Some(a)) => {
+                            writeln!(md, "- ~~Question Paper~~ *(not uploaded by ICMAI)*").unwrap();
+                            writeln!(md, "- [✅ Answer Key]({})", asset_url(release_base, &a.filename)).unwrap();
+                        }
+                        (None, None) => {}
+                    }
                     writeln!(md).unwrap();
                 }
             }
         }
+
+        writeln!(md, "---").unwrap();
+        writeln!(md).unwrap();
     }
 
     md
@@ -586,7 +599,7 @@ fn main() {
     // Write release notes if --release-base was provided
     if !release_base.is_empty() {
         let effective_tag = if tag.is_empty() { "latest".to_string() } else { tag };
-        let notes = generate_release_notes(&per_paper, &release_base, &effective_tag, &total);
+        let notes = generate_release_notes(&per_paper, &release_base, &total);
         fs::write("release_notes.md", &notes).unwrap_or_else(|e| {
             eprintln!("failed to write release_notes.md: {e}");
         });

@@ -71,7 +71,6 @@ jobs:
           find p* -name "*.pdf" | sort | while read f; do
             cp "$f" "staging/$(basename "$f")"
           done
-          cp release_notes.md staging/release_notes.md
 
           COUNT=$(ls staging/*.pdf 2>/dev/null | wc -l | tr -d ' ')
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
