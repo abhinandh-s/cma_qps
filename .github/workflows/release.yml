@@ -2,7 +2,7 @@ name: Download & Release PDFs
 
 on:
   push:
-    branches: [*]
+    branches: *
     paths:
       - "src/main.rs"
       - "Cargo.toml"
