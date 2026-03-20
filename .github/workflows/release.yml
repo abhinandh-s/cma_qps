@@ -44,8 +44,16 @@ jobs:
         run: |
           PAPERS="${{ github.event.inputs.papers }}"
           TAG="${{ github.event.inputs.tag }}"
+          BRANCH="${{ github.ref_name }}"
           [ -z "$PAPERS" ] && PAPERS="all"
-          [ -z "$TAG" ]    && TAG="$(date -u +%Y-%m)"
+          if [ -z "$TAG" ]; then
+            DATE="$(date -u +%Y-%m)"
+            if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
+              TAG="$DATE"
+            else
+              TAG="$DATE-$BRANCH"
+            fi
+          fi
           echo "papers=$PAPERS" >> "$GITHUB_OUTPUT"
           echo "tag=$TAG"       >> "$GITHUB_OUTPUT"
 
