@@ -11,7 +11,7 @@ on:
       papers:
         description: 'Papers to download ("all", "5-8", "9")'
         required: false
-        default: "all"
+        default: "5-8"
       tag:
         description: 'Release tag (e.g. "2026-03"). Defaults to YYYY-MM.'
         required: false
