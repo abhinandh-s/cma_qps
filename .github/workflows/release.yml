@@ -41,7 +41,7 @@ jobs:
           PAPERS="${{ github.event.inputs.papers }}"
           TAG="${{ github.event.inputs.tag }}"
           BRANCH="${{ github.ref_name }}"
-          [ -z "$PAPERS" ] && PAPERS="all"
+          [ -z "$PAPERS" ] && PAPERS="5-8"
           if [ -z "$TAG" ]; then
             DATE="$(date -u +%Y-%m)"
             if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
@@ -67,7 +67,6 @@ jobs:
           find p* -name "*.pdf" | sort | while read f; do
             cp "$f" "staging/$(basename "$f")"
           done
-
           COUNT=$(ls staging/*.pdf 2>/dev/null | wc -l | tr -d ' ')
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "Staged $COUNT PDFs"
