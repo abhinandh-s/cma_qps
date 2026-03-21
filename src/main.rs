@@ -306,6 +306,23 @@ fn q_overrides() -> HashMap<&'static str, HashMap<&'static str, &'static str>> {
             ),
         ]),
     );
+    m.insert(
+        "12",
+        HashMap::from([
+            (
+                "mqp_d25_s2_p12.pdf",
+                "Students/MQP_2022_Dec2025/Intermediate/MQP_Paper12_syllabus2022_Dec25_Set_2.pdf",
+            ),
+            (
+                "mqp_j25_s2_p12.pdf",
+                "Students/MQP_2022_June2025/Intermediate/MQP_Paper12_Syl22_June2025_Set2.pdf",
+            ),
+            (
+                "mqp_d24_s2_p12.pdf",
+                "Students/MQP_2022/Inter/Q_MQP_Paper12_Set2_Dec24.pdf",
+            ),
+        ]),
+    );
     m
 }
 

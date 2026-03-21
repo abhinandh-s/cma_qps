@@ -3,14 +3,6 @@ name: Download & Release PDFs
 on:
   push:
   workflow_dispatch:
-    inputs:
-      papers:
-        description: 'Papers to download ("all", "5-8", "9")'
-        required: false
-        default: "5-11"
-      tag:
-        description: 'Release tag (e.g. "2026-03"). Defaults to YYYY-MM.'
-        required: false
 
 jobs:
   release:
@@ -29,36 +21,17 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             target
+            staging 
           key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
 
-      - name: Build
-        run: cargo build --release
-
-      - name: Resolve inputs
-        id: cfg
-        run: |
-          PAPERS="${{ github.event.inputs.papers }}"
-          TAG="${{ github.event.inputs.tag }}"
-          BRANCH="${{ github.ref_name }}"
-          [ -z "$PAPERS" ] && PAPERS="5-8"
-          if [ -z "$TAG" ]; then
-            DATE="$(date -u +%Y-%m)"
-            if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
-              TAG="$DATE"
-            else
-              TAG="$DATE-$BRANCH"
-            fi
-          fi
-          echo "papers=$PAPERS" >> "$GITHUB_OUTPUT"
-          echo "tag=$TAG"       >> "$GITHUB_OUTPUT"
-
       - name: Download PDFs + generate release notes
         run: |
+          DATE="$(date -u +%Y-%m-%d_%H:%M)"
           RELEASE_BASE="https://github.com/${{ github.repository }}/releases/download/${{ steps.cfg.outputs.tag }}"
-          ./target/release/qps "${{ steps.cfg.outputs.papers }}" \
+          cargo run "8-12" \
             --release-base "$RELEASE_BASE" \
-            --tag "${{ steps.cfg.outputs.tag }}"
+            --tag "$DATE"
 
       - name: Collect assets
         id: collect
