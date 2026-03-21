@@ -16,14 +16,38 @@ struct Paper {
 }
 
 const PAPERS: &[Paper] = &[
-    Paper { num: "5",  name: "Law and Ethics" },
-    Paper { num: "6",  name: "Financial Accounting" },
-    Paper { num: "7",  name: "Direct and Indirect Taxation" },
-    Paper { num: "8",  name: "Cost Accounting" },
-    Paper { num: "9",  name: "Operations Management and Strategic Management" },
-    Paper { num: "10", name: "Corporate Accounting and Auditing" },
-    Paper { num: "11", name: "Financial Management and Business Data Analytics" },
-    Paper { num: "12", name: "Management Accounting" },
+    Paper {
+        num: "5",
+        name: "Law and Ethics",
+    },
+    Paper {
+        num: "6",
+        name: "Financial Accounting",
+    },
+    Paper {
+        num: "7",
+        name: "Direct and Indirect Taxation",
+    },
+    Paper {
+        num: "8",
+        name: "Cost Accounting",
+    },
+    Paper {
+        num: "9",
+        name: "Operations Management and Strategic Management",
+    },
+    Paper {
+        num: "10",
+        name: "Corporate Accounting and Auditing",
+    },
+    Paper {
+        num: "11",
+        name: "Financial Management and Business Data Analytics",
+    },
+    Paper {
+        num: "12",
+        name: "Management Accounting",
+    },
 ];
 
 fn paper_name(num: &str) -> &'static str {
@@ -45,11 +69,31 @@ struct Session {
 }
 
 const SESSIONS: &[Session] = &[
-    Session { tag: "d25", label: "Dec 2025", sort_key: 50 },
-    Session { tag: "j25", label: "Jun 2025", sort_key: 49 },
-    Session { tag: "d24", label: "Dec 2024", sort_key: 48 },
-    Session { tag: "j24", label: "Jun 2024", sort_key: 47 },
-    Session { tag: "d23", label: "Dec 2023", sort_key: 46 },
+    Session {
+        tag: "d25",
+        label: "Dec 2025",
+        sort_key: 50,
+    },
+    Session {
+        tag: "j25",
+        label: "Jun 2025",
+        sort_key: 49,
+    },
+    Session {
+        tag: "d24",
+        label: "Dec 2024",
+        sort_key: 48,
+    },
+    Session {
+        tag: "j24",
+        label: "Jun 2024",
+        sort_key: 47,
+    },
+    Session {
+        tag: "d23",
+        label: "Dec 2023",
+        sort_key: 46,
+    },
 ];
 
 fn session_label(tag: &str) -> &str {
@@ -97,6 +141,7 @@ struct Downloaded {
     /// tag extracted from filename (d25, j25, etc.)
     session: String,
     /// set number if MQP, else 0
+    #[allow(unused)]
     set: u8,
 }
 
@@ -105,19 +150,59 @@ struct Downloaded {
 // ---------------------------------------------------------------------------
 
 const PYQ_TERMS: &[PyqTerm] = &[
-    PyqTerm { term: "Dec25",  prefix: "d25" },
-    PyqTerm { term: "June25", prefix: "j25" },
-    PyqTerm { term: "Dec24",  prefix: "d24" },
-    PyqTerm { term: "Jun24",  prefix: "j24" },
-    PyqTerm { term: "Dec23",  prefix: "d23" },
+    PyqTerm {
+        term: "Dec25",
+        prefix: "d25",
+    },
+    PyqTerm {
+        term: "June25",
+        prefix: "j25",
+    },
+    PyqTerm {
+        term: "Dec24",
+        prefix: "d24",
+    },
+    PyqTerm {
+        term: "Jun24",
+        prefix: "j24",
+    },
+    PyqTerm {
+        term: "Dec23",
+        prefix: "d23",
+    },
 ];
 
 const MQP_Q_CONFIGS: &[MqpQConfig] = &[
-    MqpQConfig { tag: "d25", path: "MQP_2022_Dec2025/Intermediate/",  sets: 2, fmt: "Paper{p}_Syl22_Dec25_Set{s}.pdf"  },
-    MqpQConfig { tag: "j25", path: "MQP_2022_June2025/Intermediate/", sets: 2, fmt: "Paper{p}_Syl22_June25_Set{s}.pdf" },
-    MqpQConfig { tag: "d24", path: "MQP_2022/Inter/",                 sets: 2, fmt: "MQP_Paper{p}_Set{s}_Dec24.pdf"    },
-    MqpQConfig { tag: "j24", path: "MQP_2022/Inter/",                 sets: 1, fmt: "Paper{p}_Syl22_June24_Set1.pdf"   },
-    MqpQConfig { tag: "d23", path: "MQP_2022/Inter/",                 sets: 2, fmt: "Paper{p}_Syl22_Dec23_Set{s}.pdf"  },
+    MqpQConfig {
+        tag: "d25",
+        path: "MQP_2022_Dec2025/Intermediate/",
+        sets: 2,
+        fmt: "Paper{p}_Syl22_Dec25_Set{s}.pdf",
+    },
+    MqpQConfig {
+        tag: "j25",
+        path: "MQP_2022_June2025/Intermediate/",
+        sets: 2,
+        fmt: "Paper{p}_Syl22_June25_Set{s}.pdf",
+    },
+    MqpQConfig {
+        tag: "d24",
+        path: "MQP_2022/Inter/",
+        sets: 2,
+        fmt: "MQP_Paper{p}_Set{s}_Dec24.pdf",
+    },
+    MqpQConfig {
+        tag: "j24",
+        path: "MQP_2022/Inter/",
+        sets: 1,
+        fmt: "Paper{p}_Syl22_June24_Set1.pdf",
+    },
+    MqpQConfig {
+        tag: "d23",
+        path: "MQP_2022/Inter/",
+        sets: 2,
+        fmt: "Paper{p}_Syl22_Dec23_Set{s}.pdf",
+    },
 ];
 
 fn fmt_url(template: &str, paper: &str, set: u8) -> String {
@@ -132,19 +217,95 @@ fn fmt_url(template: &str, paper: &str, set: u8) -> String {
 
 fn q_overrides() -> HashMap<&'static str, HashMap<&'static str, &'static str>> {
     let mut m: HashMap<&str, HashMap<&str, &str>> = HashMap::new();
-    m.insert("6", HashMap::from([
-        ("pyq_j24_p6.pdf",    "QuestionPaper/syllabus2022/Jun24/P6_FA.pdf"),
-        ("mqp_d24_s1_p6.pdf", "Students/MQP_2022/Inter/Paper6_Syl22_Dec24_Set1.pdf"),
-        ("mqp_d24_s2_p6.pdf", "Students/MQP_2022_Dec2024/Inter/Q_MQP_Paper6_Set2_Dec24.pdf"),
-    ]));
-    m.insert("7", HashMap::from([
-        ("mqp_d24_s2_p7.pdf", "Students/MQP_2022/Inter/Q_MQP_Paper7_Set2_Dec24.pdf"),
-    ]));
-    m.insert("8", HashMap::from([
-        ("mqp_j25_s2_p8.pdf", "Students/MQP_2022_June2025/Intermediate/MQP_Paper8_Syl22_June2025_Set2.pdf"),
-        ("mqp_d24_s1_p8.pdf", "Students/MQP_2022/Inter/Paper8_Syl22_Dec24_Set1.pdf"),
-        ("mqp_d24_s2_p8.pdf", "Students/MQP_2022/Inter/Paper8_Syl22_Dec24_Set2.pdf"),
-    ]));
+    m.insert(
+        "6",
+        HashMap::from([
+            (
+                "pyq_j24_p6.pdf",
+                "QuestionPaper/syllabus2022/Jun24/P6_FA.pdf",
+            ),
+            (
+                "mqp_d24_s1_p6.pdf",
+                "Students/MQP_2022/Inter/Paper6_Syl22_Dec24_Set1.pdf",
+            ),
+            (
+                "mqp_d24_s2_p6.pdf",
+                "Students/MQP_2022_Dec2024/Inter/Q_MQP_Paper6_Set2_Dec24.pdf",
+            ),
+        ]),
+    );
+    m.insert(
+        "7",
+        HashMap::from([(
+            "mqp_d24_s2_p7.pdf",
+            "Students/MQP_2022/Inter/Q_MQP_Paper7_Set2_Dec24.pdf",
+        )]),
+    );
+    m.insert(
+        "8",
+        HashMap::from([
+            (
+                "mqp_j25_s2_p8.pdf",
+                "Students/MQP_2022_June2025/Intermediate/MQP_Paper8_Syl22_June2025_Set2.pdf",
+            ),
+            (
+                "mqp_d24_s1_p8.pdf",
+                "Students/MQP_2022/Inter/Paper8_Syl22_Dec24_Set1.pdf",
+            ),
+            (
+                "mqp_d24_s2_p8.pdf",
+                "Students/MQP_2022/Inter/Paper8_Syl22_Dec24_Set2.pdf",
+            ),
+        ]),
+    );
+    m.insert(
+        "9",
+        HashMap::from([
+            (
+                "pyq_j24_p9.pdf",
+                "/QuestionPaper/syllabus2022/Jun24/P9_OMSM.pdf",
+            ),
+            (
+                "mqp_d24_s1_p9.pdf",
+                "Students/MQP_2022/Inter/MQP_Paper9_Set1_Dec24_R.pdf",
+            ),
+            (
+                "mqp_d24_s2_p9.pdf",
+                "Students/MQP_2022/Inter/Paper9_Syl22_Dec24_Set2.pdf",
+            ),
+        ]),
+    );
+    m.insert(
+        "10",
+        HashMap::from([
+            (
+                "pyq_j24_p10.pdf",
+                "QuestionPaper/syllabus2022/Jun24/P10_CAA.pdf",
+            ),
+            (
+                "mqp_d25_s2_p10.pdf",
+                "Students/MQP_2022_Dec2025/Intermediate/MQP_Paper10_syllabus22_Dec2025_Set2.pdf",
+            ),
+        ]),
+    );
+
+    m.insert(
+        "11",
+        HashMap::from([
+            (
+                "mqp_d25_s2_p11.pdf",
+                "Students/MQP_2022_Dec2025/Intermediate/MQP_Paper11_Set2_December2025.pdf",
+            ),
+            (
+                "mqp_j25_s2_p11.pdf",
+                "Students/MQP_2022_June2025/Intermediate/MQP_Paper11_Syl22_June2025_Set2.pdf",
+            ),
+            (
+                "mqp_d24_s1_p11.pdf",
+                "Students/MQP_2022/Inter/Paper11_Syl22_Dec24_Set1.pdf",
+            ),
+        ]),
+    );
     m
 }
 
@@ -154,49 +315,166 @@ fn q_overrides() -> HashMap<&'static str, HashMap<&'static str, &'static str>> {
 
 fn answer_urls() -> HashMap<&'static str, HashMap<&'static str, &'static str>> {
     let mut m: HashMap<&str, HashMap<&str, &str>> = HashMap::new();
-    m.insert("5", HashMap::from([
-        ("mqp_ans_d25_s1_p5.pdf", "Students/MQP_2022_Dec2025/Intermediate/AnswersMQP_Set1_Paper5_Dec25_Syl22.pdf"),
-        ("mqp_ans_d25_s2_p5.pdf", "Students/MQP_2022_Dec2025/Intermediate/Ans_Paper5_Syl22_Dec25_Set2.pdf"),
-        ("mqp_ans_j25_s1_p5.pdf", "Students/MQP_2022_June2025/Intermediate/MQP_Paper5_Set1_Jun25_Answer.pdf"),
-        ("mqp_ans_j25_s2_p5.pdf", "Students/MQP_2022_June2025/Intermediate/Paper5_Syl22_June25_Set2_Sol.pdf"),
-        ("mqp_ans_d24_s1_p5.pdf", "Students/MQP_2022/Inter/A_MQP_Paper5_Set1_Dec24.pdf"),
-        ("mqp_ans_d24_s2_p5.pdf", "Students/MQP_2022/Inter/A_MQP_Paper5_Set2_Dec24.pdf"),
-        ("mqp_ans_j24_s1_p5.pdf", "Students/MQP_2022/Inter/Paper5_Syl22_June24_Set1_Sol.pdf"),
-        ("mqp_ans_d23_s1_p5.pdf", "Students/MQP_2022/Inter/Paper5_Syl22_Dec23_Set1_Sol.pdf"),
-        ("mqp_ans_d23_s2_p5.pdf", "Students/MQP_2022/Inter/Paper5_Syl22_Dec23_Set2_Sol.pdf"),
-    ]));
-    m.insert("6", HashMap::from([
-        ("mqp_ans_d25_s1_p6.pdf", "Students/MQP_2022_Dec2025/Intermediate/AnswersMQP_Set1_Paper6_Dec25_Syl22.pdf"),
-        ("mqp_ans_d25_s2_p6.pdf", "Students/MQP_2022_Dec2025/Intermediate/Ans_Paper6_Syl22_Dec25_Set2.pdf"),
-        ("mqp_ans_j25_s1_p6.pdf", "Students/MQP_2022_June2025/Intermediate/Paper6_Syl22_June25_Set1_Sol.pdf"),
-        ("mqp_ans_j25_s2_p6.pdf", "Students/MQP_2022_June2025/Intermediate/Paper6_Syl22_June25_Set2_Sol.pdf"),
-        ("mqp_ans_d24_s1_p6.pdf", "Students/MQP_2022/Inter/A_MQP_Paper6_Set1_Dec24.pdf"),
-        ("mqp_ans_d24_s2_p6.pdf", "Students/MQP_2022/Inter/A_MQP_Paper6_Set2_Dec24.pdf"),
-        ("mqp_ans_j24_s1_p6.pdf", "Students/MQP_2022/Inter/Paper6_Syl22_June24_Set1_Sol.pdf"),
-        ("mqp_ans_d23_s1_p6.pdf", "Students/MQP_2022/Inter/Paper6_Syl22_Dec23_Set1_Sol.pdf"),
-        ("mqp_ans_d23_s2_p6.pdf", "Students/MQP_2022/Inter/Paper6_Syl22_Dec23_Set2_Sol.pdf"),
-    ]));
-    m.insert("7", HashMap::from([
-        ("mqp_ans_d25_s1_p7.pdf", "Students/MQP_2022_Dec2025/Intermediate/AnswersMQP_Set1_Paper7_Dec25_Syl22.pdf"),
-        ("mqp_ans_j25_s1_p7.pdf", "Students/MQP_2022_June2025/Intermediate/Paper7_Syl22_June25_Set1_Sol.pdf"),
-        ("mqp_ans_j25_s2_p7.pdf", "Students/MQP_2022_June2025/Intermediate/Paper7_Syl22_June25_Set2_Sol.pdf"),
-        ("mqp_ans_d24_s1_p7.pdf", "Students/MQP_2022/Inter/A_MQP_Paper7_Set1_Dec24.pdf"),
-        ("mqp_ans_d24_s2_p7.pdf", "Students/MQP_2022/Inter/A_MQP_Paper7_Set2_Dec24.pdf"),
-        ("mqp_ans_j24_s1_p7.pdf", "Students/MQP_2022/Inter/Paper7_Syl22_June24_Set1_Sol.pdf"),
-        ("mqp_ans_d23_s1_p7.pdf", "Students/MQP_2022/Inter/Paper7_Syl22_Dec23_Set1_Sol.pdf"),
-        ("mqp_ans_d23_s2_p7.pdf", "Students/MQP_2022/Inter/Paper7_Syl22_Dec23_Set2_Sol.pdf"),
-    ]));
-    m.insert("8", HashMap::from([
-        ("mqp_ans_d25_s1_p8.pdf", "Students/MQP_2022_Dec2025/Intermediate/AnswersMQP_Set1_Paper8_Dec25_Syl22.pdf"),
-        ("mqp_ans_d25_s2_p8.pdf", "Students/MQP_2022_Dec2025/Intermediate/Q&A_MQP_Paper8_Syllabus22_Dec2025_Set2.pdf"),
-        ("mqp_ans_j25_s1_p8.pdf", "Students/MQP_2022_June2025/Intermediate/A_MQP_Paper8_Set1_Jun25.pdf"),
-        ("mqp_ans_j25_s2_p8.pdf", "Students/MQP_2022_June2025/Intermediate/A_MQP_Paper8_Syl22_June2025_Set2.pdf"),
-        ("mqp_ans_d24_s1_p8.pdf", "Students/MQP_2022/Inter/A_MQP_Paper8_Set1_Dec24.pdf"),
-        ("mqp_ans_d24_s2_p8.pdf", "Students/MQP_2022/Inter/A_MQP_Paper8_Set2_Dec24.pdf"),
-        ("mqp_ans_j24_s1_p8.pdf", "Students/MQP_2022/Inter/Paper8_Syl22_June24_Set1_Sol.pdf"),
-        ("mqp_ans_d23_s1_p8.pdf", "Students/MQP_2022/Inter/Paper8_Syl22_Dec23_Set1_Sol.pdf"),
-        ("mqp_ans_d23_s2_p8.pdf", "Students/MQP_2022/Inter/Paper8_Syl22_Dec23_Set2_Sol.pdf"),
-    ]));
+    m.insert(
+        "5",
+        HashMap::from([
+            (
+                "mqp_ans_d25_s1_p5.pdf",
+                "Students/MQP_2022_Dec2025/Intermediate/AnswersMQP_Set1_Paper5_Dec25_Syl22.pdf",
+            ),
+            (
+                "mqp_ans_d25_s2_p5.pdf",
+                "Students/MQP_2022_Dec2025/Intermediate/Ans_Paper5_Syl22_Dec25_Set2.pdf",
+            ),
+            (
+                "mqp_ans_j25_s1_p5.pdf",
+                "Students/MQP_2022_June2025/Intermediate/MQP_Paper5_Set1_Jun25_Answer.pdf",
+            ),
+            (
+                "mqp_ans_j25_s2_p5.pdf",
+                "Students/MQP_2022_June2025/Intermediate/Paper5_Syl22_June25_Set2_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d24_s1_p5.pdf",
+                "Students/MQP_2022/Inter/A_MQP_Paper5_Set1_Dec24.pdf",
+            ),
+            (
+                "mqp_ans_d24_s2_p5.pdf",
+                "Students/MQP_2022/Inter/A_MQP_Paper5_Set2_Dec24.pdf",
+            ),
+            (
+                "mqp_ans_j24_s1_p5.pdf",
+                "Students/MQP_2022/Inter/Paper5_Syl22_June24_Set1_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d23_s1_p5.pdf",
+                "Students/MQP_2022/Inter/Paper5_Syl22_Dec23_Set1_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d23_s2_p5.pdf",
+                "Students/MQP_2022/Inter/Paper5_Syl22_Dec23_Set2_Sol.pdf",
+            ),
+        ]),
+    );
+    m.insert(
+        "6",
+        HashMap::from([
+            (
+                "mqp_ans_d25_s1_p6.pdf",
+                "Students/MQP_2022_Dec2025/Intermediate/AnswersMQP_Set1_Paper6_Dec25_Syl22.pdf",
+            ),
+            (
+                "mqp_ans_d25_s2_p6.pdf",
+                "Students/MQP_2022_Dec2025/Intermediate/Ans_Paper6_Syl22_Dec25_Set2.pdf",
+            ),
+            (
+                "mqp_ans_j25_s1_p6.pdf",
+                "Students/MQP_2022_June2025/Intermediate/Paper6_Syl22_June25_Set1_Sol.pdf",
+            ),
+            (
+                "mqp_ans_j25_s2_p6.pdf",
+                "Students/MQP_2022_June2025/Intermediate/Paper6_Syl22_June25_Set2_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d24_s1_p6.pdf",
+                "Students/MQP_2022/Inter/A_MQP_Paper6_Set1_Dec24.pdf",
+            ),
+            (
+                "mqp_ans_d24_s2_p6.pdf",
+                "Students/MQP_2022/Inter/A_MQP_Paper6_Set2_Dec24.pdf",
+            ),
+            (
+                "mqp_ans_j24_s1_p6.pdf",
+                "Students/MQP_2022/Inter/Paper6_Syl22_June24_Set1_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d23_s1_p6.pdf",
+                "Students/MQP_2022/Inter/Paper6_Syl22_Dec23_Set1_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d23_s2_p6.pdf",
+                "Students/MQP_2022/Inter/Paper6_Syl22_Dec23_Set2_Sol.pdf",
+            ),
+        ]),
+    );
+    m.insert(
+        "7",
+        HashMap::from([
+            (
+                "mqp_ans_d25_s1_p7.pdf",
+                "Students/MQP_2022_Dec2025/Intermediate/AnswersMQP_Set1_Paper7_Dec25_Syl22.pdf",
+            ),
+            (
+                "mqp_ans_j25_s1_p7.pdf",
+                "Students/MQP_2022_June2025/Intermediate/Paper7_Syl22_June25_Set1_Sol.pdf",
+            ),
+            (
+                "mqp_ans_j25_s2_p7.pdf",
+                "Students/MQP_2022_June2025/Intermediate/Paper7_Syl22_June25_Set2_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d24_s1_p7.pdf",
+                "Students/MQP_2022/Inter/A_MQP_Paper7_Set1_Dec24.pdf",
+            ),
+            (
+                "mqp_ans_d24_s2_p7.pdf",
+                "Students/MQP_2022/Inter/A_MQP_Paper7_Set2_Dec24.pdf",
+            ),
+            (
+                "mqp_ans_j24_s1_p7.pdf",
+                "Students/MQP_2022/Inter/Paper7_Syl22_June24_Set1_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d23_s1_p7.pdf",
+                "Students/MQP_2022/Inter/Paper7_Syl22_Dec23_Set1_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d23_s2_p7.pdf",
+                "Students/MQP_2022/Inter/Paper7_Syl22_Dec23_Set2_Sol.pdf",
+            ),
+        ]),
+    );
+    m.insert(
+        "8",
+        HashMap::from([
+            (
+                "mqp_ans_d25_s1_p8.pdf",
+                "Students/MQP_2022_Dec2025/Intermediate/AnswersMQP_Set1_Paper8_Dec25_Syl22.pdf",
+            ),
+            (
+                "mqp_ans_d25_s2_p8.pdf",
+                "Students/MQP_2022_Dec2025/Intermediate/Q&A_MQP_Paper8_Syllabus22_Dec2025_Set2.pdf",
+            ),
+            (
+                "mqp_ans_j25_s1_p8.pdf",
+                "Students/MQP_2022_June2025/Intermediate/A_MQP_Paper8_Set1_Jun25.pdf",
+            ),
+            (
+                "mqp_ans_j25_s2_p8.pdf",
+                "Students/MQP_2022_June2025/Intermediate/A_MQP_Paper8_Syl22_June2025_Set2.pdf",
+            ),
+            (
+                "mqp_ans_d24_s1_p8.pdf",
+                "Students/MQP_2022/Inter/A_MQP_Paper8_Set1_Dec24.pdf",
+            ),
+            (
+                "mqp_ans_d24_s2_p8.pdf",
+                "Students/MQP_2022/Inter/A_MQP_Paper8_Set2_Dec24.pdf",
+            ),
+            (
+                "mqp_ans_j24_s1_p8.pdf",
+                "Students/MQP_2022/Inter/Paper8_Syl22_June24_Set1_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d23_s1_p8.pdf",
+                "Students/MQP_2022/Inter/Paper8_Syl22_Dec23_Set1_Sol.pdf",
+            ),
+            (
+                "mqp_ans_d23_s2_p8.pdf",
+                "Students/MQP_2022/Inter/Paper8_Syl22_Dec23_Set2_Sol.pdf",
+            ),
+        ]),
+    );
     m
 }
 
@@ -324,7 +602,8 @@ fn generate_release_notes(
          Files not listed here were not yet uploaded by ICMAI at time of release.",
         total.success + total.skipped,
         per_paper.len()
-    ).unwrap();
+    )
+    .unwrap();
     writeln!(md).unwrap();
 
     let mut paper_nums: Vec<&String> = per_paper.keys().collect();
@@ -380,18 +659,18 @@ fn generate_release_notes(
                 // collect set numbers for this session's question files
                 let mut set_nums: std::collections::HashSet<u8> = std::collections::HashSet::new();
                 for f in files {
-                    if let Some((t, s, "mqp")) = parse_filename(&f.filename) {
-                        if t == *session_tag {
-                            set_nums.insert(s);
-                        }
+                    if let Some((t, s, "mqp")) = parse_filename(&f.filename)
+                        && t == *session_tag
+                    {
+                        set_nums.insert(s);
                     }
                 }
                 // also include sets that only have an answer (no question file)
                 for f in files {
-                    if let Some((t, s, "mqp_ans")) = parse_filename(&f.filename) {
-                        if t == *session_tag {
-                            set_nums.insert(s);
-                        }
+                    if let Some((t, s, "mqp_ans")) = parse_filename(&f.filename)
+                        && t == *session_tag
+                    {
+                        set_nums.insert(s);
                     }
                 }
                 let mut sets: Vec<u8> = set_nums.into_iter().collect();
@@ -414,19 +693,32 @@ fn generate_release_notes(
 
                     match (q, a) {
                         (Some(q), Some(a)) => {
-                            writeln!(md, "| [📄 Question Paper]({}) | [✅ Answer Key]({}) |",
+                            writeln!(
+                                md,
+                                "| [📄 Question Paper]({}) | [✅ Answer Key]({}) |",
                                 asset_url(release_base, &q.filename),
                                 asset_url(release_base, &a.filename),
-                            ).unwrap();
+                            )
+                            .unwrap();
                             writeln!(md, "|---|---|").unwrap();
                         }
                         (Some(q), None) => {
-                            writeln!(md, "- [📄 Question Paper]({})", asset_url(release_base, &q.filename)).unwrap();
+                            writeln!(
+                                md,
+                                "- [📄 Question Paper]({})",
+                                asset_url(release_base, &q.filename)
+                            )
+                            .unwrap();
                             writeln!(md, "- ~~Answer Key~~ *(not uploaded by ICMAI)*").unwrap();
                         }
                         (None, Some(a)) => {
                             writeln!(md, "- ~~Question Paper~~ *(not uploaded by ICMAI)*").unwrap();
-                            writeln!(md, "- [✅ Answer Key]({})", asset_url(release_base, &a.filename)).unwrap();
+                            writeln!(
+                                md,
+                                "- [✅ Answer Key]({})",
+                                asset_url(release_base, &a.filename)
+                            )
+                            .unwrap();
                         }
                         (None, None) => {}
                     }
@@ -472,7 +764,11 @@ fn parse_args() -> Result<Args, String> {
     }
 
     let papers = parse_papers(&paper_input)?;
-    Ok(Args { papers, release_base, tag })
+    Ok(Args {
+        papers,
+        release_base,
+        tag,
+    })
 }
 
 fn parse_papers(input: &str) -> Result<Vec<String>, String> {
@@ -499,17 +795,23 @@ fn parse_papers(input: &str) -> Result<Vec<String>, String> {
 // ---------------------------------------------------------------------------
 
 fn main() {
-    let Args { papers, release_base, tag } = parse_args().unwrap_or_else(|e| {
+    let Args {
+        papers,
+        release_base,
+        tag,
+    } = parse_args().unwrap_or_else(|e| {
         eprintln!("error: {e}");
-        eprintln!("Usage: qps [<paper_num>|<start>-<end>|all] [--release-base <url>] [--tag <tag>]");
+        eprintln!(
+            "Usage: qps [<paper_num>|<start>-<end>|all] [--release-base <url>] [--tag <tag>]"
+        );
         std::process::exit(1);
     });
 
     let overrides = q_overrides();
-    let answers   = answer_urls();
+    let answers = answer_urls();
     let mut total = Stats::default();
-    let sep       = "-".repeat(32);
-    let sep_wide  = "=".repeat(32);
+    let sep = "-".repeat(32);
+    let sep_wide = "=".repeat(32);
 
     // paper_num → collected files (saved + skipped = present on disk)
     let mut per_paper: HashMap<String, Vec<Downloaded>> = HashMap::new();
@@ -538,7 +840,15 @@ fn main() {
                 ),
             };
             let result = download(&folder, &filename, &url);
-            record(&mut stats, &mut total, result, &filename, &mut downloaded, t.prefix, 0);
+            record(
+                &mut stats,
+                &mut total,
+                result,
+                &filename,
+                &mut downloaded,
+                t.prefix,
+                0,
+            );
         }
 
         // MQP questions
@@ -553,7 +863,15 @@ fn main() {
                     }
                 };
                 let result = download(&folder, &filename, &url);
-                record(&mut stats, &mut total, result, &filename, &mut downloaded, c.tag, s);
+                record(
+                    &mut stats,
+                    &mut total,
+                    result,
+                    &filename,
+                    &mut downloaded,
+                    c.tag,
+                    s,
+                );
             }
         }
 
@@ -569,7 +887,15 @@ fn main() {
                         .map(|(t, s, _)| (t.to_string(), s))
                         .unwrap_or_default();
                     let result = download(&folder, filename, &url);
-                    record(&mut stats, &mut total, result, filename, &mut downloaded, &sess, set);
+                    record(
+                        &mut stats,
+                        &mut total,
+                        result,
+                        filename,
+                        &mut downloaded,
+                        &sess,
+                        set,
+                    );
                 }
             }
             None => {
@@ -598,7 +924,11 @@ fn main() {
 
     // Write release notes if --release-base was provided
     if !release_base.is_empty() {
-        let effective_tag = if tag.is_empty() { "latest".to_string() } else { tag };
+        let _effective_tag = if tag.is_empty() {
+            "latest".to_string()
+        } else {
+            tag
+        };
         let notes = generate_release_notes(&per_paper, &release_base, &total);
         fs::write("release_notes.md", &notes).unwrap_or_else(|e| {
             eprintln!("failed to write release_notes.md: {e}");
