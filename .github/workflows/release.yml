@@ -14,6 +14,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set Release Tag
+        id: vars
+        # We use %H-%M (hyphen) instead of colons for better URL/Tag compatibility
+        run: echo "tag=$(date -u +%Y-%m-%d_%H-%M)" >> $GITHUB_OUTPUT
+
       - name: Cache cargo
         uses: actions/cache@v4
         with:
@@ -21,36 +26,32 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             target
-            staging 
           key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
 
       - name: Download PDFs + generate release notes
         run: |
-          DATE="$(date -u +%Y-%m-%d_%H:%M)"
-          RELEASE_BASE="https://github.com/${{ github.repository }}/releases/download/${{ steps.cfg.outputs.tag }}"
+          RELEASE_BASE="https://github.com/${{ github.repository }}/releases/download/${{ steps.vars.outputs.tag }}"
           cargo run "5-12" \
             --release-base "$RELEASE_BASE" \
-            --tag "$DATE"
+            --tag "${{ steps.vars.outputs.tag }}"
 
       - name: Collect assets
         id: collect
         run: |
           mkdir -p staging
-          find p* -name "*.pdf" | sort | while read f; do
-            cp "$f" "staging/$(basename "$f")"
-          done
+          # Use -exec to handle spaces or weird characters in filenames safely
+          find p* -name "*.pdf" -exec cp {} staging/ \;
           COUNT=$(ls staging/*.pdf 2>/dev/null | wc -l | tr -d ' ')
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "Staged $COUNT PDFs"
 
-
-
       - name: Create or update release
         uses: softprops/action-gh-release@v2
+        if: steps.collect.outputs.count != '0'
         with:
-          tag_name: $(date -u +%Y-%m-%d_%H:%M)
-          name: "CMA Inter G1 QPS — ${{ steps.cfg.outputs.tag }}"
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: "CMA Inter G1 QPS — ${{ steps.vars.outputs.tag }}"
           body_path: release_notes.md
-          files: staging/*
+          files: staging/*.pdf
           fail_on_unmatched_files: false
