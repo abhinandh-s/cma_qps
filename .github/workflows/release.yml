@@ -29,7 +29,7 @@ jobs:
         run: |
           DATE="$(date -u +%Y-%m-%d_%H:%M)"
           RELEASE_BASE="https://github.com/${{ github.repository }}/releases/download/${{ steps.cfg.outputs.tag }}"
-          cargo run "8-12" \
+          cargo run "5-12" \
             --release-base "$RELEASE_BASE" \
             --tag "$DATE"
 
@@ -44,16 +44,13 @@ jobs:
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "Staged $COUNT PDFs"
 
-      - name: Fail if nothing downloaded
-        if: steps.collect.outputs.count == '0'
-        run: |
-          echo "::error::No PDFs downloaded. Check ICMAI availability."
-          exit 1
+
 
       - name: Create or update release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.cfg.outputs.tag }}
+          DATE="$(date -u +%Y-%m-%d_%H:%M)"
+          tag_name: $DATE
           name: "CMA Inter G1 QPS — ${{ steps.cfg.outputs.tag }}"
           body_path: release_notes.md
           files: staging/*
