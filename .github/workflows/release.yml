@@ -49,8 +49,7 @@ jobs:
       - name: Create or update release
         uses: softprops/action-gh-release@v2
         with:
-          DATE="$(date -u +%Y-%m-%d_%H:%M)"
-          tag_name: $DATE
+          tag_name: $(date -u +%Y-%m-%d_%H:%M)
           name: "CMA Inter G1 QPS — ${{ steps.cfg.outputs.tag }}"
           body_path: release_notes.md
           files: staging/*
