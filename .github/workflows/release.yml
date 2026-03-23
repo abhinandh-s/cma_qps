@@ -50,7 +50,7 @@ jobs:
           echo "count=$COUNT" >> "$GITHUB_OUTPUT"
           echo "Staged $COUNT PDFs"
 
-           - name: Commit and Push README changes
+      - name: Commit and Push README changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
