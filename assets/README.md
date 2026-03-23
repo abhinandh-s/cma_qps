@@ -1,9 +1,4 @@
-![icon](./file-unknown.svg)
-![icon](./file-edit.svg)
-
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="icon-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="icon-light.svg">
-  <img src="icon-light.svg" width="24">
-</picture>
+| Status | Icon | Description |
+| :--- | :---: | :--- |
+| **Unknown** | <picture><source media="(prefers-color-scheme: dark)" srcset="assets/file-unknown-dark.svg"><img alt="Unknown File" src="assets/file-unknown-light.svg" width="24"></picture> | This file status is currently being investigated. |
+| **Verified** | <picture><source media="(prefers-color-scheme: dark)" srcset="assets/file-edit-dark.svg"><img alt="Verified File" src="assets/file-edit-light.svg" width="24"></picture> | This file has been successfully verified. |
