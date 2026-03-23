@@ -6,3 +6,6 @@
 
 ![Icon](file-unknown-light.svg#gh-light-mode-only)
 ![Icon](file-unknown-dark.svg#gh-dark-mode-only)
+
+
+ [![QP-Light](https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-light.svg#gh-light-mode-only)][![QP-Dark](https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-dark.svg#gh-dark-mode-only) This]()
