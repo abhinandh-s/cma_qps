@@ -4,6 +4,8 @@
 | **Verified** | <picture><source media="(prefers-color-scheme: dark)" srcset="file-edit-dark.svg"><img alt="Verified File" src="file-edit-light.svg" width="24"></picture> | This file has been successfully verified. |
 
 
+- [Alt](.link)
+
 ![Icon](file-unknown-light.svg#gh-light-mode-only)
 ![Icon](file-unknown-dark.svg#gh-dark-mode-only)
 
