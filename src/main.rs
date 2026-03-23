@@ -712,7 +712,7 @@ fn generate_release_notes(
                         (Some(q), Some(a)) => {
                             writeln!(
                                 md,
-                                "| [📄 Question Paper]({}) | [✅ Answer Key]({}) |",
+                                "| [📄 Question Paper]({}) | [󱪚 Answer Key]({}) |",
                                 asset_url(release_base, &q.filename),
                                 asset_url(release_base, &a.filename),
                             )
@@ -732,7 +732,7 @@ fn generate_release_notes(
                             writeln!(md, "- ~~Question Paper~~ *(not uploaded by ICMAI)*").unwrap();
                             writeln!(
                                 md,
-                                "- [✅ Answer Key]({})",
+                                "- [󱪚 Answer Key]({})",
                                 asset_url(release_base, &a.filename)
                             )
                             .unwrap();
