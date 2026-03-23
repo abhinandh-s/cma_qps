@@ -3,7 +3,7 @@ name: Download & Release PDFs
 on:
   push:
     paths-ignore:
-      - 'docs/**
+      - 'docs/**'
       - 'assets/**'
       - '*.md'
   workflow_dispatch:
