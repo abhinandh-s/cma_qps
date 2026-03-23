@@ -712,7 +712,7 @@ fn generate_release_notes(
                         (Some(q), Some(a)) => {
                             writeln!(
                                 md,
-                                "| [<picture> <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-dark.svg\"> <img src=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-light.svg\" width=\"24\"> </picture> Question Paper]({}) | [󱪚 Answer Key]({}) |",
+                                "| [<picture> <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-dark.svg\"> <img src=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-light.svg\" width=\"24\"> </picture> Question Paper]({}) | [<picture> <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-dark.svg\"> <img src=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-light.svg\" width=\"24\"> </picture> Answer Key]({}) |",
                                 asset_url(release_base, &q.filename),
                                 asset_url(release_base, &a.filename),
                             )
@@ -732,7 +732,7 @@ fn generate_release_notes(
                             writeln!(md, "- ~~Question Paper~~ *(not uploaded by ICMAI)*").unwrap();
                             writeln!(
                                 md,
-                                "- [󱪚 Answer Key]({})",
+                                "- [<picture> <source media=\"(prefers-color-scheme: dark)\" srcset=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-dark.svg\"> <img src=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-light.svg\" width=\"24\"> </picture> Answer Key]({})",
                                 asset_url(release_base, &a.filename)
                             )
                             .unwrap();
