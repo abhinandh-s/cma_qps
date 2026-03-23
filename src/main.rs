@@ -5,6 +5,10 @@ use std::fs;
 use std::path::Path;
 
 const BASE_URL: &str = "https://icmai.in/upload/";
+const ICON_QP: &str = "[![QP-Light](https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-light.svg#gh-light-mode-only)][![QP-Dark](https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-dark.svg#gh-dark-mode-only)]";
+
+const ICON_AK: &str = "[![AK-Light](https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-light.svg#gh-light-mode-only)][![AK-Dark](https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-dark.svg#gh-dark-mode-only)]";
+
 
 // ---------------------------------------------------------------------------
 // Paper metadata
