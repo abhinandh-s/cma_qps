@@ -714,8 +714,8 @@ fn generate_release_notes(
                                 md,
                                 "| [<picture>
 <source media=\"(prefers-color-scheme: dark)\"
-srcset=\"assets/file-unknown-dark.svg\">
-<img src=\"assets/file-unknown-light.svg\" width=\"24\">
+srcset=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-dark.svg\">
+<img src=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-light.svg\" width=\"24\">
 </picture> Question Paper]({}) | [󱪚 Answer Key]({}) |",
                                 asset_url(release_base, &q.filename),
                                 asset_url(release_base, &a.filename),
@@ -728,8 +728,8 @@ srcset=\"assets/file-unknown-dark.svg\">
                                 md,
                                 "- [<picture>
 <source media=\"(prefers-color-scheme: dark)\"
-srcset=\"assets/file-unknown-dark.svg\">
-<img src=\"assets/file-unknown-light.svg\" width=\"24\">
+srcset=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-dark.svg\">
+<img src=\"https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-light.svg\" width=\"24\">
 </picture> Question Paper]({})",
                                 asset_url(release_base, &q.filename)
                             )
