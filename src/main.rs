@@ -955,6 +955,9 @@ fn main() {
             eprintln!("failed to write release_notes.md: {e}");
         });
         println!("\nRelease notes written to release_notes.md");
+      fs::write("README.md", &notes).unwrap_or_else(|e| {
+            eprintln!("failed to write README.md: {e}");
+        });
     }
 
     if total.failed > 0 {
