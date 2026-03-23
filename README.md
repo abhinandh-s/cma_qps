@@ -22,15 +22,10 @@
 
 #### Jun 2025
 
-**Set 1**
-
-| [<picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-dark.svg"> <img src="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-light.svg" width="24"> </picture>  Question Paper](https://github.com/abhinandh-s/cma_qps/releases/download/2026-03-23_19-32/mqp_j25_s1_p5.pdf) | [<picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-dark.svg"> <img src="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-light.svg" width="24"> </picture>    Answer Key](https://github.com/abhinandh-s/cma_qps/releases/download/2026-03-23_19-32/mqp_ans_j25_s1_p5.pdf) |
-|---|---|
-
-**Set 2**
-
-| [<picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-dark.svg"> <img src="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-light.svg" width="24"> </picture>  Question Paper](https://github.com/abhinandh-s/cma_qps/releases/download/2026-03-23_19-32/mqp_j25_s2_p5.pdf) | [<picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-dark.svg"> <img src="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-light.svg" width="24"> </picture>    Answer Key](https://github.com/abhinandh-s/cma_qps/releases/download/2026-03-23_19-32/mqp_ans_j25_s2_p5.pdf) |
-|---|---|
+| Set | <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-dark.svg"> <img src="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-unknown-light.svg" width="20"> </picture>                      Question Paper | <picture> <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-dark.svg"> <img src="https://raw.githubusercontent.com/abhinandh-s/cma_qps/refs/heads/master/assets/file-edit-light.svg" width="20"> </picture> Answer Key |
+| :--- | :--- | :--- |
+| **Set 1** | [link](https://github.com/abhinandh-s/cma_qps/releases/download/2026-03-23_19-32/mqp_d25_s1_p5.pdf) |  [link](https://github.com/abhinandh-s/cma_qps/releases/download/2026-03-23_19-32/mqp_ans_d25_s1_p5.pdf) |
+| **Set 2** | [link](https://github.com/abhinandh-s/cma_qps/releases/download/2026-03-23_19-32/mqp_d25_s2_p5.pdf) | [link](https://github.com/abhinandh-s/cma_qps/releases/download/2026-03-23_19-32/mqp_ans_d25_s2_p5.pdf) |
 
 #### Dec 2024
 
